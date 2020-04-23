@@ -52,10 +52,8 @@ class _MyAppState extends State<MyApp> {
       print('make sure the apk file is set');
       return;
     }
-    Map<PermissionGroup, PermissionStatus> permissions =
-        await PermissionHandler().requestPermissions([PermissionGroup.storage]);
-    if (permissions[PermissionGroup.storage] == PermissionStatus.granted) {
-      InstallPlugin.installApk(_apkFilePath, 'com.zaihui.installpluginexample')
+    if (await Permission.storage.request().isGranted) {
+      InstallPlugin.installApk(_apkFilePath)
           .then((result) {
         print('install apk $result');
       }).catchError((error) {
